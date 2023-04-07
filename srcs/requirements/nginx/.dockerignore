@@ -1,0 +1,9 @@
+.DS_Store
+*.log
+*.swp
+*.swo
+*~
+*/.git
+*/.svn
+*/node_modules
+*/vendor

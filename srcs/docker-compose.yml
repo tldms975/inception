@@ -1,36 +1,57 @@
 version: '3'
 
-volumes:
-    data: {}
 services:
-    mariadb:
-        image: debian:buster
-        restart: always
-        expose:
-            - "3306"
-        networks:
-            - intra
-        tty: true
-    nginx:
-        image: debian:buster
-        restart: always
-        ports:
-            - "443:443"
-        volumes:
-            - data:/var/www/html
-        networks:
-            - intra
-        tty: true
-    wordpress:
-        image: debian:buster
-        restart: always
-        volumes:
-            - data:/var/www/html
-        expose: 
-            - "9000"
-        networks:
-            - intra
-        tty: true
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: always
+    ports:
+      - "443:443"
+    volumes:
+      - data:/data
+    networks:
+      - app-network
+
+  wordpress:
+    build:
+      context: ./wordpress
+      dockerfile: Dockerfile
+    container_name: wordpress
+    restart: always
+    volumes:
+      - data:/data
+      - wordpress:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: example_user
+      WORDPRESS_DB_PASSWORD: example_password
+      WORDPRESS_DB_NAME: example_db
+    networks:
+      - app-network
+
+  mariadb:
+    build:
+      context: ./mariadb
+      dockerfile: Dockerfile
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example_password
+      MYSQL_DATABASE: example_db
+      MYSQL_USER: example_user
+      MYSQL_PASSWORD: example_password
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - app-network
+
 networks:
-    intra:
-        driver: bridge
+  app-network:
+    driver: bridge
+
+volumes:
+  data:
+  wordpress:
+  mariadb:

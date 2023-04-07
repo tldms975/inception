@@ -1,14 +1,25 @@
-# Base image
-FROM mariadb:10.6.4
+FROM debian:buster
 
-# Set environment variables for data base
-ENV MYSQL_ROOT_PASSWORD=password
-ENV MYSQL_DATABASE=wordpress
-ENV MYSQL_USER=wordpress
-ENV MYSQL_PASSWORD=password
+# install mariadb
+RUN apt-get update && \
+    apt-get install -y mariadb-server
 
-# Open ports for remote access
+# copy over custom configurations
+COPY conf/ /etc/mysql/mariadb.conf.d/
+RUN chown -R mysql:mysql /etc/mysql/mariadb.conf.d/
+
+# copy over tools
+COPY tools/ /usr/local/bin/
+RUN chmod +x /usr/local/bin/*
+
+# setup entrypoint script
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+# expose default mariadb port
 EXPOSE 3306
 
-# # Start mariadb service
-# CMD ["mysqld", "--user=mysql"]
+# start mariadb service
+CMD ["mysqld"]
+

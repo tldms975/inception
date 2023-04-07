@@ -1,17 +1,20 @@
-all:
-	@docker compose -f ./scrs/docker-compose.yml up -d --build
+# Variables
+DOCKER_COMPOSE_FILE=docker-compose.yml
 
-down:
-	@docker compose -f ./scrs/docker-compose.yml down
+# Phony Targets
+.PHONY: all clean fclean re
 
-re:
-	@docker compose -f scrs/docker-compose.yml up -d --build
+all: build
+
+build:
+	docker-compose -f $(DOCKER_COMPOSE_FILE) up -d --build
 
 clean:
-	@docker stop $$(docker ps -qa);\
-	docker rm $$(docker ps -qa);\
-	docker rmi -f $$(docker images -qa);\
-	docker volume rm $$(docker volume ls -q);\
-	docker network rm $$(docker network ls -q);\
+	docker-compose -f $(DOCKER_COMPOSE_FILE) down --remove-orphans
 
-.PHONY: all re down clean
+fclean: clean
+	docker volume rm srcs_data
+	docker volume rm srcs_wordpress
+	docker volume rm srcs_mariadb
+
+re: fclean all
