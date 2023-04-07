@@ -12,7 +12,7 @@ services:
     volumes:
       - data:/data
     networks:
-      - app-network
+      - intra
 
   wordpress:
     build:
@@ -29,7 +29,7 @@ services:
       WORDPRESS_DB_PASSWORD: example_password
       WORDPRESS_DB_NAME: example_db
     networks:
-      - app-network
+      - intra
 
   mariadb:
     build:
@@ -45,10 +45,10 @@ services:
     volumes:
       - mariadb:/var/lib/mysql
     networks:
-      - app-network
+      - intra
 
 networks:
-  app-network:
+  intra:
     driver: bridge
 
 volumes:
