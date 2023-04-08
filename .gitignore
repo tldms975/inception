@@ -1,7 +1,4 @@
-**/.env
-
-# Prerequisites
-*.d
+./srcs/.env
 
 # Compiled Object files
 *.slo

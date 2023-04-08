@@ -1,57 +1,55 @@
 version: '3'
 
 services:
-  nginx:
+  mariadb:
+    container_name: mariadb
     build:
-      context: ./nginx
+      context: ./requirements/mariadb
       dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - db:/home/sielee/data/db
+    expose:
+      - "3306"
+    networks:
+      - dockernet
+
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - wp:/home/sielee/data/wp
+    env_file:
+      - .env
+    expose:
+      - "9000"
+    networks:
+      - dockernet
+
+  nginx:
     container_name: nginx
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "443:443"
     volumes:
-      - data:/data
+      - wp:/home/sielee/data/wp
+      - ./requirements/nginx/ssl:/etc/nginx/ssl
     networks:
-      - intra
+      - dockernet
 
-  wordpress:
-    build:
-      context: ./wordpress
-      dockerfile: Dockerfile
-    container_name: wordpress
-    restart: always
-    volumes:
-      - data:/data
-      - wordpress:/var/www/html
-    environment:
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: example_user
-      WORDPRESS_DB_PASSWORD: example_password
-      WORDPRESS_DB_NAME: example_db
-    networks:
-      - intra
-
-  mariadb:
-    build:
-      context: ./mariadb
-      dockerfile: Dockerfile
-    container_name: mariadb
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: example_password
-      MYSQL_DATABASE: example_db
-      MYSQL_USER: example_user
-      MYSQL_PASSWORD: example_password
-    volumes:
-      - mariadb:/var/lib/mysql
-    networks:
-      - intra
-
-networks:
-  intra:
-    driver: bridge
 
 volumes:
-  data:
-  wordpress:
-  mariadb:
+  db:
+  wp:
+
+networks:
+  dockernet:
+    driver: bridge
