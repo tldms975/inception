@@ -1,8 +1,8 @@
 # Variables
-DOCKER_COMPOSE_FILE=docker-compose.yml
+DOCKER_COMPOSE_FILE=srcs/docker-compose.yml
 
 # Phony Targets
-.PHONY: all clean fclean re
+.PHONY: all build clean fclean re
 
 all: build
 
@@ -13,8 +13,8 @@ clean:
 	docker-compose -f $(DOCKER_COMPOSE_FILE) down --remove-orphans
 
 fclean: clean
-	docker volume rm srcs_data
-	docker volume rm srcs_wordpress
-	docker volume rm srcs_mariadb
+	docker volume rm
+	docker volume rm
+	docker volume rm
 
 re: fclean all

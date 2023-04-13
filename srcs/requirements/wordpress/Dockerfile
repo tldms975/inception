@@ -17,7 +17,7 @@ RUN apt-get update && \
     php-xmlrpc
 
 # Copy WordPress files
-COPY wordpress ./requirements/wordpress/wordpress
+COPY ./conf /var/www/html
 
 # Set ownership and permissions
 RUN chown -R www-data:www-data /var/www/html && \
@@ -26,5 +26,8 @@ RUN chown -R www-data:www-data /var/www/html && \
 # Expose port
 EXPOSE 9000
 
+# Set PATH environment variable
+ENV PATH="/usr/sbin:${PATH}"
+
 # Start services
-CMD ["php-fpm7.4", "-F"]
+CMD ["php-fpm", "-F"]
