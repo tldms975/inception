@@ -6,18 +6,25 @@ RUN apt-get update && \
     curl \
     wget \
     unzip \
-    php \
-    php-fpm \
-    php-mysql \
-    php-gd \
-    php-curl \
-    php-json \
-    php-mbstring \
-    php-xml \
-    php-xmlrpc
+    php7.3 \
+    php7.3-fpm \
+    php7.3-mysql \
+    php7.3-gd \
+    php7.3-curl \
+    php7.3-json \
+    php7.3-mbstring \
+    php7.3-xml \
+    php7.3-xmlrpc
+
+RUN useradd -ms /bin/bash myuser
+USER myuser
+
+# Create directory for PID file
+RUN mkdir -p /run/php
 
 # Copy WordPress files
-COPY conf/ /var/www/html
+COPY . /var/www/html
+COPY conf/php-fpm.conf /etc/php/7.3/fpm
 
 # Set ownership and permissions
 RUN chown -R www-data:www-data /var/www/html && \
@@ -27,4 +34,4 @@ RUN chown -R www-data:www-data /var/www/html && \
 EXPOSE 9000
 
 # Start services
-CMD ["/bin/sh", "php-fpm", "-F"]
+CMD ["php-fpm7.3", "-F"]

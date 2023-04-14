@@ -8,7 +8,7 @@ RUN apt-get update && \
     nginx
 
 # Copy nginx configuration
-COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx.conf /etc/nginx/sites-available/default
 
 # Expose port
 EXPOSE 80
