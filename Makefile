@@ -1,20 +1,16 @@
-# Variables
-DOCKER_COMPOSE_FILE=srcs/docker-compose.yml
+DOCKER_COMPOSE_FILE := srcs/docker-compose.yml
 
-# Phony Targets
-.PHONY: all build clean fclean re
+all:
+	@docker-compose -f $(DOCKER_COMPOSE_FILE) up -d --build
 
-all: build
+re: down all
 
-build:
-	docker-compose -f $(DOCKER_COMPOSE_FILE) up -d --build
+down:
+	@docker-compose -f $(DOCKER_COMPOSE_FILE) down
 
 clean:
-	docker-compose -f $(DOCKER_COMPOSE_FILE) down --remove-orphans
+	@if docker ps -a | grep -q mariadb; then docker stop mariadb && docker rm mariadb; else true; fi
+	@docker-compose -f srcs/docker-compose.yml down --remove-orphans
+	@docker volume rm srcs_db srcs_wp || true
 
-fclean: clean
-	docker volume rm
-	docker volume rm
-	docker volume rm
-
-re: fclean all
+.PHONY: all re down clean

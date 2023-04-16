@@ -16,8 +16,19 @@ RUN apt-get update && \
     php7.3-xml \
     php7.3-xmlrpc
 
-RUN useradd -ms /bin/bash myuser
-USER myuser
+ARG USERNAME=myuser
+ARG GROUPNAME=mygroup
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+RUN groupadd --gid $USER_GID $GROUPNAME && \
+    useradd --uid $USER_UID --gid $USER_GID -m $USERNAME && \
+    chown -R $USERNAME:$GROUPNAME /home/$USERNAME && \
+    # 디렉토리 생성
+    mkdir -p /run/php && \
+    # 소유자 및 그룹 변경
+    chown myuser:mygroup /run/php && \
+    # 권한 변경
+    chmod 777 /run/php
 
 # Create directory for PID file
 RUN mkdir -p /run/php

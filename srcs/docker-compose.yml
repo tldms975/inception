@@ -16,6 +16,7 @@ services:
     networks:
       - dockernet
 
+
   wordpress:
     container_name: wordpress
     build:
