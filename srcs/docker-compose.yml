@@ -6,15 +6,15 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    restart: always
     env_file:
       - .env
     volumes:
-      - db:/home/sielee/data/db
-    expose:
-      - "3306"
+      - db:/var/lib/mysql
+    ports:
+      - "3306:3306"
     networks:
       - dockernet
+    restart: always
 
 
   wordpress:
@@ -22,33 +22,45 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    restart: always
+    depends_on:
+      - mariadb
     volumes:
-      - wp:/home/sielee/data/wp
+      - wp:/var/www
     env_file:
       - .env
-    expose:
-      - "9000"
     networks:
       - dockernet
+    restart: always
+
 
   nginx:
     container_name: nginx
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    restart: always
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     volumes:
-      - wp:/home/sielee/data/wp
-      - ./requirements/nginx/ssl:/etc/nginx/ssl
+      - ./requirements/nginx/conf/:/etc/nginx/http.d/
+      - ./requirements/nginx/tools:/etc/nginx/ssl/
+      - wp:/var/www
     networks:
       - dockernet
+    restart: always
 
 volumes:
   db:
+    driver_opts:
+      type: none
+      device: /home/sielee/data/db
+      o: bind
   wp:
+    driver_opts:
+      type: none
+      device: /home/sielee/data/wp
+      o: bind
 
 networks:
   dockernet:

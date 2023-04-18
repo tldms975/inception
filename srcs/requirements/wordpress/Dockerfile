@@ -38,11 +38,8 @@ COPY . /var/www/html
 COPY conf/php-fpm.conf /etc/php/7.3/fpm
 
 # Set ownership and permissions
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 755 /var/www/html
-
-# Expose port
-EXPOSE 9000
+RUN chown -R www-data:www-data /var/www/ && \
+    chmod -R 755 /var/www/
 
 # Start services
 CMD ["php-fpm7.3", "-F"]

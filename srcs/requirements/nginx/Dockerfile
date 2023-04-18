@@ -11,7 +11,6 @@ RUN apt-get update && \
 COPY conf/nginx.conf /etc/nginx/sites-available/default
 
 # Expose port
-EXPOSE 80
 EXPOSE 443
 
 # Start services
