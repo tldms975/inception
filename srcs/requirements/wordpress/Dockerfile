@@ -34,12 +34,14 @@ RUN groupadd --gid $USER_GID $GROUPNAME && \
 RUN mkdir -p /run/php
 
 # Copy WordPress files
-COPY . /var/www/html
+COPY . /var/www/
 COPY conf/php-fpm.conf /etc/php/7.3/fpm
 
 # Set ownership and permissions
 RUN chown -R www-data:www-data /var/www/ && \
     chmod -R 755 /var/www/
+
+EXPOSE 9000
 
 # Start services
 CMD ["php-fpm7.3", "-F"]
