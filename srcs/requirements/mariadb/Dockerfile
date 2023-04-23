@@ -3,8 +3,8 @@ FROM alpine:3.16
 RUN apk update && \
     apk add mariadb mariadb-client mariadb-server-utils
 
-RUN mkdir /var/run/mysqld; \
-    chmod 777 /var/run/mysqld;
+RUN mkdir -p /var/run/mysqld && \
+    chmod 777 /var/run/mysqld
 
 RUN { echo '[mysqld]'; \
       echo 'skip-host-cache'; \

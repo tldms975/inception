@@ -1,20 +1,6 @@
 version: '3'
 
 services:
-  mariadb:
-    container_name: mariadb
-    build:
-      context: ./requirements/mariadb
-      dockerfile: Dockerfile
-    env_file:
-      - .env
-    volumes:
-      - db:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    networks:
-      - dockernet
-    restart: always
 
 
   wordpress:
@@ -32,6 +18,20 @@ services:
       - dockernet
     restart: always
 
+  mariadb:
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - dockernet
+    restart: always
 
   nginx:
     container_name: nginx
@@ -54,12 +54,12 @@ volumes:
   db:
     driver_opts:
       type: none
-      device: /home/sielee/data/db
+      device: ${VOLUME_PATH}/mariadb
       o: bind
   wp:
     driver_opts:
       type: none
-      device: /home/sielee/data/wp
+      device: ${VOLUME_PATH}/wordpress
       o: bind
 
 networks:
