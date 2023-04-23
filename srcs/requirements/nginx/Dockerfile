@@ -8,14 +8,14 @@ RUN apt-get update && \
     nginx
 
 # for SSL certificate
-RUN mkdir /etc/nginx/ssl
+RUN mkdir -p /etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -days 365 -sha256 -nodes \
 -keyout /etc/nginx/ssl/sielee.key \
 -out /etc/nginx/ssl/sielee.crt \
 -subj "/C=KR/ST=Seoul/L=Seoul/O=42Seoul/OU=Lee/CN=sielee"
 
 # Copy nginx configuration
-COPY conf/nginx.conf /etc/nginx/sites-available/default
+# COPY conf/nginx.conf /etc/nginx/sites-available/default
 
 # Create SSL folder and copy certificates
 COPY ./tools/sielee.crt /etc/nginx/ssl/sielee.crt
