@@ -34,14 +34,17 @@ RUN groupadd --gid $USER_GID $GROUPNAME && \
 RUN mkdir -p /run/php
 
 # Copy WordPress files
-COPY . /var/www/
+COPY . /var/www/html
 COPY conf/php-fpm.conf /etc/php/7.3/fpm
 
 # Set ownership and permissions
-RUN chown -R www-data:www-data /var/www/ && \
-    chmod -R 755 /var/www/
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
 
 EXPOSE 9000
 
 # Start services
-CMD ["php-fpm7.3", "-F"]
+CMD ["php-fpm7.3", "-F", "-R"]

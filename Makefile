@@ -1,6 +1,9 @@
 DOCKER_COMPOSE_FILE := srcs/docker-compose.yml
 
+
 all:
+	mkdir -p /Users/sielee/data/mariadb
+	mkdir -p /Users/sielee/data/wordpress
 	@docker-compose -f $(DOCKER_COMPOSE_FILE) up -d --build
 
 re: down all
