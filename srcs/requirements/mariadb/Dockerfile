@@ -14,7 +14,7 @@ RUN			chown -R mysql:mysql /run/mysqld
 RUN			mkdir -p /var/lib/mysql
 RUN			chown -R mysql:mysql /var/lib/mysql
 
-COPY        /tools/mariadb.sh  /tmp/mariadb.sh
+COPY        ./tools/mariadb.sh  /tmp/mariadb.sh
 ADD         ./conf/mariadb-server.conf /etc/my.cnf.d/mariadb-server.cnf
 
 CMD         ["sh", "tmp/mariadb.sh"]
