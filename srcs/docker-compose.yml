@@ -10,7 +10,7 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - wp:/var/www
+      - wp:/var/www/html
     env_file:
       - .env
     networks:

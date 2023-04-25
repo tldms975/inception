@@ -15,7 +15,7 @@ RUN openssl req -newkey rsa:4096 -x509 -days 365 -sha256 -nodes \
 -subj "/C=KR/ST=Seoul/L=Seoul/O=42Seoul/OU=Lee/CN=sielee"
 
 # Copy nginx configuration
-# COPY conf/nginx.conf /etc/nginx/sites-available/default
+COPY ./conf/nginx.conf /etc/nginx/conf.d
 
 # Create SSL folder and copy certificates
 COPY ./tools/sielee.crt /etc/nginx/ssl/sielee.crt
