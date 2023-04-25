@@ -1,11 +1,12 @@
 #!/bin/sh
 
-mysql_install_db
+service mysql restart
+mysql_install_db --user=mysql --defaults-file=/etc/mysql/my.cnf 
+/usr/bin/mysqld_safe --datadir='/var/lib/mysql' # set as volumes dir
 
 /etc/init.d/mysql start
 
 #Check if the database exists
-
 if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]
 then 
 	echo "Database already exists"
@@ -15,12 +16,13 @@ else
 
 mysql_secure_installation << _EOF_
 
+Y
 root4life
 root4life
-y
+Y
 n
-y
-y
+Y
+Y
 _EOF_
 
 #Add a root user on 127.0.0.1 to allow remote connexion 
@@ -29,7 +31,6 @@ _EOF_
 echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
 
 #Create database and user in the database for wordpress
-
 echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -u root
 
 #Import database in the mysql command line

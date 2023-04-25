@@ -2,21 +2,6 @@ version: '3'
 
 services:
 
-  wordpress:
-    container_name: wordpress
-    build:
-      context: ./requirements/wordpress
-      dockerfile: Dockerfile
-    depends_on:
-      - mariadb
-    volumes:
-      - wp:/var/www/html
-    env_file:
-      - .env
-    networks:
-      - dockernet
-    restart: always
-
   mariadb:
     container_name: mariadb
     build:
@@ -28,6 +13,21 @@ services:
       - db:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - dockernet
+    restart: always
+
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    depends_on:
+      - mariadb
+    volumes:
+      - wp:/var/www/html
+    env_file:
+      - .env
     networks:
       - dockernet
     restart: always
