@@ -1,11 +1,12 @@
 DOCKER_COMPOSE_FILE := srcs/docker-compose.yml
 
-all:
+
+all: $(UP)
+
+up:
 	mkdir -p /Users/sielee/data/mariadb
 	mkdir -p /Users/sielee/data/wordpress
 	@docker-compose -f $(DOCKER_COMPOSE_FILE) up -d --build
-
-re: down all
 
 down:
 	@docker-compose -f $(DOCKER_COMPOSE_FILE) down
@@ -20,4 +21,7 @@ fclean	: clean
 	docker system prune --volumes --all --force
 	docker network prune --force
 	docker volume prune --force
+
+re: down fclean all
+
 .PHONY: all re down clean
