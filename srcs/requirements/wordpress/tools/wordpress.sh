@@ -25,4 +25,12 @@ else
 
 fi
 
-exec "$@"
+echo "\
+
+--------------------
+@wordpress ready
+@port:9000
+--------------------
+"
+
+exec /usr/sbin/php-fpm7.3 -F
