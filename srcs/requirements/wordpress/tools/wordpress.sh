@@ -1,29 +1,24 @@
 #!/bin/sh
 
-#check if wp-config.php exist
-if [ -f ./wp-config.php ]
-then
-	echo "wordpress already downloaded"
-else
+i=0
+while ! mysqladmin -h$MYSQL_HOST -u$MYSQL_USER -p$MYSQL_PASSWORD ping >/dev/null 2>&1; do
+  if [ $i -eq 0 ]; then
+    echo "Waiting for MariaDB at Wordpress ..."
+  else
+    echo "Waiting for MariaDB at Wordpress ... ${i}"
+  fi
+	sleep 5
+  i=$(($i+1))
+done
+echo "Waiting for MariaDB at Wordpress ... done"
 
-####### MANDATORY PART ##########
-
-	#Download wordpress and all config file
-	wget http://wordpress.org/latest.tar.gz
-	tar xfz latest.tar.gz
-	mv wordpress/* .
-	rm -rf latest.tar.gz
-	rm -rf wordpress
-
-	#Inport env variables in the config file
-	sed -i "s/username_here/$MYSQL_USER/g" wp-config-sample.php
-	sed -i "s/password_here/$MYSQL_PASSWORD/g" wp-config-sample.php
-	sed -i "s/localhost/$MYSQL_HOSTNAME/g" wp-config-sample.php
-	sed -i "s/database_name_here/$MYSQL_DATABASE/g" wp-config-sample.php
-	cp wp-config-sample.php wp-config.php
-###################################
-
-fi
+wp-cli core download --allow-root
+wp-cli config create --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=$MYSQL_HOSTNAME --allow-root
+wp-cli core install --url=$DOMAIN_NAME/wordpress --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
+wp-cli user create $WP_USER $WP_USER_EMAIL --user_pass=$WP_USER_PASSWORD --role=editor --allow-root
+wp-cli theme install twentytwenty --allow-root
+wp-cli theme update twentytwenty --allow-root
+wp-cli theme activate twentytwenty --allow-root
 
 echo "\
 

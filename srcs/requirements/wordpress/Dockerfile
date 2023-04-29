@@ -1,41 +1,25 @@
 FROM debian:buster-slim
 
-# Install necessary packages
-RUN apt-get update && \
-    apt-get install -y \
+COPY ./tools/wordpress.sh /wordpress.sh
+
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     curl \
-    wget \
-    php7.3 \
     php7.3-fpm \
     php7.3-mysql \
-    php7.3-gd \
-    php7.3-curl \
-    php7.3-json \
-    php7.3-mbstring \
-    php7.3-xml \
-    php7.3-xmlrpc
+    mariadb-client && \
+    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp && \
+    ln -sf /usr/local/bin/wp-cli.phar /usr/local/bin/wp-cli && \
+    mkdir -p /var/www/html /run/php && \
+    usermod -G www-data -a www-data && \
+    chown -R www-data:www-data /var/www/ && \
+    chmod +x wordpress.sh
 
-# Create directory for PID file
-RUN mkdir -p /run/php
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
-# Copy WordPress files
-COPY . /var/www/html
-COPY conf/www.conf /etc/php/8/fpm
-
-# Set ownership and permissions
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 755 /var/www/html
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN chmod +x wp-cli.phar
-RUN mv wp-cli.phar /usr/local/bin/wp
-
-COPY ./tools/wordpress.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/wordpress.sh
-ENTRYPOINT ["/usr/local/bin/wordpress.sh"]
-
-#We go the html directory
 WORKDIR /var/www/html/
 
 EXPOSE 9000
 
-# Start services
+ENTRYPOINT ["sh", "/wordpress.sh"]

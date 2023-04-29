@@ -1,28 +1,15 @@
 FROM debian:buster-slim
 
-# Install necessary packages
-RUN apt-get update && \
-    apt-get install -y \
-    curl \
-    wget \
-    nginx
+COPY ./tools/nginx.sh /nginx.sh
+COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 
-# for SSL certificate
-RUN mkdir -p /etc/nginx/ssl
-RUN openssl req -newkey rsa:4096 -x509 -days 365 -sha256 -nodes \
--keyout /etc/nginx/ssl/sielee.key \
--out /etc/nginx/ssl/sielee.crt \
--subj "/C=KR/ST=Seoul/L=Seoul/O=42Seoul/OU=Lee/CN=sielee"
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+    nginx \
+    openssl && \
+    mkdir -p /etc/ssl && \
+    chmod +x nginx.sh 
 
-# Copy nginx configuration
-COPY ./conf/nginx.conf /etc/nginx/conf.d
 
-# Create SSL folder and copy certificates
-COPY ./tools/sielee.crt /etc/nginx/ssl/sielee.crt
-COPY ./tools/sielee.key /etc/nginx/ssl/sielee.key
-
-# Expose port
 EXPOSE 443
 
-# Start services
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["sh", "/nginx.sh"]

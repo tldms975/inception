@@ -1,7 +1,7 @@
 DOCKER_COMPOSE_FILE := srcs/docker-compose.yml
 
 
-all: $(UP)
+all: up
 
 up:
 	mkdir -p /Users/sielee/data/mariadb
