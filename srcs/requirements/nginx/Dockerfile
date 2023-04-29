@@ -1,7 +1,6 @@
 FROM debian:buster-slim
 
 COPY ./tools/nginx.sh /nginx.sh
-COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     nginx \
@@ -9,6 +8,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     mkdir -p /etc/ssl && \
     chmod +x nginx.sh 
 
+COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 443
 

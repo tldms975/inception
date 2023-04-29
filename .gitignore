@@ -1,6 +1,6 @@
 ./srcs/.env
 
-**/DS_store
+**/.DS_store
 
 # Compiled Object files
 *.slo

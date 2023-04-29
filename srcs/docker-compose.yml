@@ -11,8 +11,8 @@ services:
       - .env
     volumes:
       - db:/var/lib/mysql
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     networks:
       - dockernet
     restart: always
@@ -28,6 +28,8 @@ services:
       - .env
     volumes:
       - wp:/var/www/html
+    expose:
+      - "9000"
     networks:
       - dockernet
     restart: always
@@ -53,7 +55,7 @@ volumes:
   db:
     driver_opts:
       type: none
-      device: /mariadb
+      device: ${VOLUME_PATH}/mariadb
       o: bind
   wp:
     driver_opts:
