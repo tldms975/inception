@@ -24,10 +24,10 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mariadb
-    volumes:
-      - wp:/var/www/html
     env_file:
       - .env
+    volumes:
+      - wp:/var/www/html
     networks:
       - dockernet
     restart: always
@@ -44,9 +44,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./requirements/nginx/conf/:/etc/nginx/http.d/
-      - ./requirements/nginx/tools:/etc/nginx/ssl/
-      - wp:/var/www
+      - wp:/var/www/html
     networks:
       - dockernet
     restart: always
@@ -55,7 +53,7 @@ volumes:
   db:
     driver_opts:
       type: none
-      device: ${VOLUME_PATH}/mariadb
+      device: /mariadb
       o: bind
   wp:
     driver_opts:

@@ -1,11 +1,10 @@
 DOCKER_COMPOSE_FILE := srcs/docker-compose.yml
-
+SETUP_SH := ./srcs/requirements/tools/setup.sh
 
 all: up
 
 up:
-	mkdir -p /Users/sielee/data/mariadb
-	mkdir -p /Users/sielee/data/wordpress
+	@$(SETUP_SH)
 	@docker-compose -f $(DOCKER_COMPOSE_FILE) up -d --build
 
 down:
@@ -17,7 +16,7 @@ clean:
 	@docker volume rm srcs_db srcs_wp || true
 
 fclean	: clean
-	rm -rf ${VOLUME_PATH}/data
+	rm -rf ${HOME}/data
 	docker system prune --volumes --all --force
 	docker network prune --force
 	docker volume prune --force
