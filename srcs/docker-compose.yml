@@ -27,7 +27,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wp:/var/www/html
+      - wp:/var/www/html/wordpress
     expose:
       - "9000"
     networks:
@@ -46,7 +46,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wp:/var/www/html
+      - wp:/var/www/html/wordpress
     networks:
       - dockernet
     restart: always
