@@ -15,7 +15,7 @@ fi
 # host_path를 출력하여 conf와 같은 줄이 있는지 줄을 count 한다.
 LINE_cnt=$(cat ${hosts_path} | grep -x "${conf}" | wc -l)
 
-# /etc/hosts 에 {127.0.0.1 jeongkpa.42.fr}을 추가하여, localhost를 해당 도메인으로 설정합니다.
+# /etc/hosts 에 {127.0.0.1 sielee.42.fr}을 추가하여, localhost를 해당 도메인으로 설정합니다.
 if [ ${LINE_cnt} -eq 0 ]; then
     echo ${conf} >> ${hosts_path}
 fi
