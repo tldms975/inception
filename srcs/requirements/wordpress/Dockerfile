@@ -1,6 +1,5 @@
 FROM debian:buster-slim
 
-EXPOSE 9000
 
 COPY ./tools/wordpress.sh /wordpress.sh
 
@@ -19,5 +18,7 @@ RUN apt-get update && \
 WORKDIR /var/www/html/wordpress
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+
+EXPOSE 9000
 
 ENTRYPOINT ["sh", "/wordpress.sh"]

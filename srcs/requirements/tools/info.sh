@@ -12,6 +12,7 @@
 intra_id=sielee
 
 volume_path=/home/${intra_id}/data
+
 wordpress_path=${volume_path}/wordpress
 mariadb_path=${volume_path}/mariadb
 
@@ -24,7 +25,7 @@ conf="127.0.0.1 ${intra_id}.42.fr"
 
 if [ $# -eq 0 ]
 then
-    echo "NO ARGUMENTS" 1>&2
+    echo "NO ARGUMENTS"
     exit 1
 fi
 
@@ -44,5 +45,5 @@ elif [ "conf" = $1 ]
 then
     echo ${conf}
 else
-    echo "NOT FOUND INFO" 1>&2
+    echo "NOT FOUND INFO"
 fi

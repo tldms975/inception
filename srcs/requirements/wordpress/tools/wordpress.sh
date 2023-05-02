@@ -10,7 +10,7 @@ while ! mysqladmin -h$MYSQL_HOST -u$MYSQL_USER -p$MYSQL_PASSWORD ping >/dev/null
   else
     echo "Waiting for MariaDB at Wordpress ... ${i}"
   fi
-  sleep 5
+  sleep 3
   i=$(($i+1))
 done
 echo "Waiting for MariaDB at Wordpress ... done"

@@ -1,6 +1,5 @@
 FROM debian:buster
 
-EXPOSE 3306
 
 COPY ./tools/mariadb.sh /mariadb.sh
 
@@ -13,5 +12,7 @@ RUN apt-get update && \
     rm -f /etc/mysql/mariadb.conf.d/50-server.cnf
 
 COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+
+EXPOSE 3306
 
 ENTRYPOINT ["sh", "/mariadb.sh"]

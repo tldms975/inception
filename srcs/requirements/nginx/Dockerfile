@@ -1,7 +1,5 @@
 FROM debian:buster
 
-EXPOSE 443
-
 COPY ./tools/nginx.sh /nginx.sh
 
 RUN apt-get update && \
@@ -11,5 +9,7 @@ RUN apt-get update && \
     chmod +x nginx.sh
 
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 443
 
 ENTRYPOINT ["sh", "/nginx.sh"]

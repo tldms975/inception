@@ -24,7 +24,7 @@ fi
 LINE_cnt=$(cat ${hosts_path} | grep -x "${conf}" | wc -l)
 
 if [ ${LINE_cnt} -eq 0 ]; then
-    echo "@${hosts_path} is invalid" 1>&2
+    echo "@${hosts_path} is invalid"
 else
     echo "@${hosts_path} is ready"
 fi
