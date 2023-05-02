@@ -1,6 +1,5 @@
-sudo apt-get update
 # 설치에 필요한 소프트웨어 설치
-sudo apt-get install \
+sudo apt-get update && apt-get install \
     ca-certificates \
     curl \
     gnupg \
@@ -21,6 +20,6 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plu
 sudo groupadd docker
 sudo usermod -aG docker sielee
 # 로컬에서 개발을 진행할 때 로컬에서만 사용할 도메인과 IP주소 연결
-echo '127.0.0.1 sielee.42.fr' | sudo tee -a /etc/hosts
+echo '127.0.0.1 sielee.42.fr' >> /etc/hosts
 
 sudo reboot

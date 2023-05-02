@@ -2,8 +2,7 @@ HOSTS_SETUP_SH=./srcs/requirements/tools/hosts.sh
 VOLUME_SETUP_SH=./srcs/requirements/tools/volume.sh
 FCLEAN_SETUP_SH=./srcs/requirements/tools/fclean.sh
 
-DOCKER_COMPOSE_FILE = ./srcs/docker-compose.yml
-DOCKER_COMPOSE = docker compose --file $(DOCKER_COMPOSE_FILE)
+DOCKER_COMPOSE = docker compose --file ./srcs/docker-compose.yml
 
 all: up
 

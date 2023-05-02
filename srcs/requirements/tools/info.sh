@@ -12,13 +12,8 @@
 intra_id=sielee
 
 volume_path=/home/${intra_id}/data
-
 wordpress_path=${volume_path}/wordpress
 mariadb_path=${volume_path}/mariadb
-
-
-
-
 
 # * ----------------------------------------------------------
 # set path /etc/hosts
@@ -26,10 +21,6 @@ hosts_path="/etc/hosts"
 # add "127.0.01 {intra}.42.fr"
 conf="127.0.0.1 ${intra_id}.42.fr"
 # * ----------------------------------------------------------
-
-
-
-
 
 if [ $# -eq 0 ]
 then
