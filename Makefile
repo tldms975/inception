@@ -4,8 +4,8 @@ include ./srcs/.env
 all: up
 
 up:
-	@sudo mkdir -p ${VOLUME_PATH}/mariadb
-	@sudo mkdir -p ${VOLUME_PATH}/wordpress
+	sudo mkdir -p ${VOLUME_PATH}/mariadb
+	sudo mkdir -p ${VOLUME_PATH}/wordpress
 	@docker-compose -f $(DOCKER_COMPOSE_FILE) up -d --build
 
 down:
