@@ -9,7 +9,7 @@
 
 # this is only for the mysqld standalone daemon
 [mysqld]
-lower_case_table_names=1
+
 #
 # * Basic Settings
 #
@@ -27,6 +27,7 @@ lc-messages-dir         = /usr/share/mysql
 # localhost which is more compatible and is not less secure.
 # bind-address            = 127.0.0.1
 
+#
 # * Fine Tuning
 #
 #key_buffer_size        = 16M

@@ -1,15 +1,15 @@
-FROM debian:buster-slim
+FROM debian:buster
 
 EXPOSE 443
 
-COPY ./tools/nginx.sh /nginx.sh
+COPY ./tools/setup.sh /setup.sh
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-    nginx \
-    openssl && \
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y nginx openssl && \
     mkdir -p /etc/ssl && \
-    chmod +x nginx.sh 
+    chmod +x setup.sh
 
-COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
+COPY conf/default.conf /etc/nginx/conf.d/default.conf
 
-ENTRYPOINT ["sh", "/nginx.sh"]
+ENTRYPOINT ["sh", "/setup.sh"]

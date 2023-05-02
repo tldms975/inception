@@ -1,13 +1,11 @@
 #!/bin/sh
 
 if [ ! -d "/var/lib/mysql/$MYSQL_DB" ]; then
-  echo "creating database..."
   mysql_install_db --datadir=/var/lib/mysql --auth-root-authentication-method=normal >/dev/null
   mysqld --bootstrap << EOF
 use mysql;
 
 flush privileges;
-# mysql_upgrade -uroot -p 
 
 create database $MYSQL_DB;
 create user '$MYSQL_USER'@'%' identified by '$MYSQL_PASSWORD';
@@ -19,12 +17,6 @@ flush privileges;
 EOF
 fi
 
-echo "\
-
---------------------
-@mariadb ready
-@port:3306
---------------------
-"
+echo "mariadb ready, port is 3306"
 
 exec mysqld --datadir=/var/lib/mysql
