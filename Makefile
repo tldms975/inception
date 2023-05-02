@@ -4,10 +4,10 @@ include ./srcs/.env
 all: up
 
 up:
-	# @mkdir -p ${VOLUME_PATH}/mariadb
-	# @mkdir -p ${VOLUME_PATH}/wordpress
-	@mkdir -p /Users/sielee/data/mariadb
-	@mkdir -p /Users/sielee/data/wordpress
+	@mkdir -p ${VOLUME_PATH}/mariadb
+	@mkdir -p ${VOLUME_PATH}/wordpress
+	# @mkdir -p /Users/sielee/data/mariadb
+	# @mkdir -p /Users/sielee/data/wordpress
 	@docker-compose -f $(DOCKER_COMPOSE_FILE) up -d --build
 
 down:
