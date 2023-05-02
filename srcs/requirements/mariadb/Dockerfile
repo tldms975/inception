@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:buster
 
 COPY ./tools/mariadb.sh /mariadb.sh
 
