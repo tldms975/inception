@@ -10,7 +10,7 @@ services:
     expose: #컨테이너 내부의 포트 3306을 호스트 외부 포트에 노출시킨다.
       - '3306'
     volumes:
-      - mariadb-volume:/var/lib/mysql # /home/jeongkpa/data/mariadb 디렉토리를 /var/lib/mysql에 매핑.
+      - mariadb-volume:/var/lib/mysql # /home/sielee/data/mariadb 디렉토리를 /var/lib/mysql에 매핑.
     networks: # 도커 네트워크 설정
       - intra-network
     env_file: # 환경 변수 파일
@@ -28,7 +28,7 @@ services:
     expose:
       - '9000'
     volumes:
-      - wordpress-volume:/var/www/html/wordpress # /home/jeongkpa/data/wordpress 디렉토리를 /var/www/html/wordpress에 맵핑
+      - wordpress-volume:/var/www/html/wordpress # /home/sielee/data/wordpress 디렉토리를 /var/www/html/wordpress에 맵핑
     networks:
       - intra-network
     env_file:
@@ -62,10 +62,10 @@ volumes:
     driver_opts:
       type: none
       o: bind # bind-mount을 사용해서, host의 file-system을 volume으로 사용한다.
-      device: /home/jeongkpa/data/mariadb # 이건 linux에서 사용할 volume 경로 ( Subject 명시 )
+      device: /home/sielee/data/mariadb # 이건 linux에서 사용할 volume 경로 ( Subject 명시 )
   wordpress-volume: # volume 이름
     driver: local
     driver_opts:
       type: none
       o: bind # bind-mount을 사용해서, host의 file-system을 volume으로 사용한다.
-      device: /home/jeongkpa/data/wordpress # ? 이건 linux에서 사용할 volume 경로 ( Subject 명시 )
+      device: /home/sielee/data/wordpress # ? 이건 linux에서 사용할 volume 경로 ( Subject 명시 )
