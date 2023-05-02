@@ -15,6 +15,8 @@ RUN apt-get update && \
     chown -R www-data:www-data /var/www/ && \
     chmod +x wordpress.sh
 
+WORKDIR /var/www/html/wordpress
+
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 EXPOSE 9000
