@@ -19,7 +19,6 @@ clean:
 
 fclean	: clean
 	rm -rf /home/sielee/data
-	rm -rf /Users/sielee/data
 	docker system prune --volumes --all --force
 	docker network prune --force
 	docker volume prune --force
