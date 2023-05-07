@@ -12,10 +12,11 @@ up:
 	$(DOCKER_COMPOSE) up -d --build
 
 down:
-	$(DOCKER_COMPOSE) down --volumes
+	$(DOCKER_COMPOSE) down --volumes --remove-orphans
 
 clean: down
 	$(DOCKER_COMPOSE) down --rmi all
+	
 
 fclean: clean
 	sudo rm -rf ${HOME}/data
