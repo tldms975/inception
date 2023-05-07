@@ -22,4 +22,3 @@ sudo usermod -aG docker sielee
 # 로컬에서 개발을 진행할 때 로컬에서만 사용할 도메인과 IP주소 연결
 echo '127.0.0.1 sielee.42.fr' >> /etc/hosts
 
-sudo reboot
