@@ -1,4 +1,4 @@
-# 설치에 필요한 소프트웨어 설치
+# 설치에 필요한 소프트웨어 설치 (for ubuntu)
 sudo apt-get update && apt-get install \
     ca-certificates \
     curl \
