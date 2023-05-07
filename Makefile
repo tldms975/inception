@@ -2,7 +2,7 @@ HOSTS_SETUP_SH=./srcs/requirements/tools/hosts.sh
 VOLUME_SETUP_SH=./srcs/requirements/tools/volume.sh
 FCLEAN_SETUP_SH=./srcs/requirements/tools/fclean.sh
 
-DOCKER_COMPOSE = docker compose --file ./srcs/docker-compose.yml
+DOCKER_COMPOSE=docker compose --file ./srcs/docker-compose.yml
 
 all: up
 
@@ -12,11 +12,10 @@ up:
 	$(DOCKER_COMPOSE) up -d --build
 
 down:
-	$(DOCKER_COMPOSE) down --volumes --remove-orphans
+	$(DOCKER_COMPOSE) down --remove-orphans
 
-clean: down
+clean:
 	$(DOCKER_COMPOSE) down --rmi all
-	
 
 fclean: clean
 	sudo rm -rf ${HOME}/data
